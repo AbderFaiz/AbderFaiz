@@ -9,6 +9,7 @@
  '(custom-enabled-themes '(leuven))
  '(menu-bar-mode nil)
  '(nyan-animate-nyancat t)
+ '(nyan-mode t)
  '(nyan-wavy-trail t)
  '(package-archives
    '(("gnu" . "https://elpa.gnu.org/packages/")
