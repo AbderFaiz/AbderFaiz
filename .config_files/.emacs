@@ -3,7 +3,6 @@
 (require 'org)
 (require 'grep-a-lot)
 (grep-a-lot-setup-keys)
-(require 'auto-dark)
 (use-package org-tempo)
 (use-package tuareg
   :ensure 
@@ -44,8 +43,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-dark-mode t)
- '(auto-dark-themes '((leuven-dark) (leuven)))
  '(blink-cursor-mode nil)
  '(diary-list-entries-hook '(diary-include-other-diary-files diary-sort-entries))
  '(electric-pair-mode t)
@@ -54,34 +51,51 @@
  '(nyan-animate-nyancat t)
  '(nyan-mode t)
  '(nyan-wavy-trail t)
- '(org-agenda-files '("~/org/life.org"))
+ '(org-agenda-files '("~/org/capture.org" "/home/faiz/org/life.org"))
  '(org-agenda-include-diary t)
  '(org-babel-load-languages '((emacs-lisp . t) (shell . t)))
- '(org-capture-templates 
-   (quote (
-
-     ("G" "Define a goal" entry (file+headline "~/org/capture.org" "Capture") (file "~/org/tpl/tpl_goal.txt") :empty-lines-after 2)
-
-     ("N" "NEXT entry" entry (file+headline "~/org/capture.org" "Capture") (file "~/org/tpl/tpl_next.txt") :empty-lines-before 1) 
-
-     ("T" "TODO entry" entry (file+headline "~/org/capture.org" "Capture") (file "~/org/tpl/tpl_todo.txt") :empty-lines-before 1)
-
-     ("W" "WAITING entry" entry (file+headline "~/org/capture.org" "Capture") (file "~/org/tpl/tpl_waiting.txt") :empty-lines-before 1) 
-
-     ("S" "SOMEDAY entry" entry (file+headline "~/org/capture.org" "Capture") (file "~/org/tpl/tpl_someday.txt") :empty-lines-before 1)
-
-     ("P" "PROJ entry" entry (file+headline "~/org/capture.org" "Capture") (file "~/org/tpl/tpl-proj.txt") :empty-lines-before 1)
-
-     ("B" "Book on the to-read-list" entry (file+headline "~/org/life.org" "Books to read") (file "~/org/tpl/tpl_book.txt") :empty-lines-after 2)
-
-     ("D" "Add a daily plan checklist" entry (file+olp+datetree "~/org/daily_plan.org") (file "~/org/tpl/tpl_daily_plan.txt") :immediate-finish t)
-     
-     ("J" "Add a journal entry" entry (file+olp+datetree "~/org/journal.org") "* %<%H:%M> - %^{Activity}")
-
-     ("w" "Add an item to buy" entry (file+headline "~/org/life.org" "Wish List") (file "~/org/tpl_wishlist.txt") :empty-lines-before 1)
-      
-     )))
-
+ '(org-capture-templates
+   '(("G" "Define a goal" entry
+      (file+headline "~/org/capture.org" "Capture")
+      (file "~/org/tpl/tpl_goal.txt")
+      :empty-lines-after 2)
+     ("N" "NEXT entry" entry
+      (file+headline "~/org/capture.org" "Capture")
+      (file "~/org/tpl/tpl_next.txt")
+      :empty-lines-before 1)
+     ("T" "TODO entry" entry
+      (file+headline "~/org/capture.org" "Capture")
+      (file "~/org/tpl/tpl_todo.txt")
+      :empty-lines-before 1)
+     ("W" "WAITING entry" entry
+      (file+headline "~/org/capture.org" "Capture")
+      (file "~/org/tpl/tpl_waiting.txt")
+      :empty-lines-before 1)
+     ("S" "SOMEDAY entry" entry
+      (file+headline "~/org/capture.org" "Capture")
+      (file "~/org/tpl/tpl_someday.txt")
+      :empty-lines-before 1)
+     ("P" "PROJ entry" entry
+      (file+headline "~/org/capture.org" "Capture")
+      (file "~/org/tpl/tpl_proj.txt")
+      :empty-lines-before 1)
+     ("B" "Book on the to-read-list" entry
+      (file+headline "~/org/life.org" "Books to read")
+      (file "~/org/tpl/tpl_book.txt")
+      :empty-lines-after 2)
+     ("D" "Add a daily plan checklist" entry
+      (file+olp+datetree "~/org/daily_plan.org")
+      (file "~/org/tpl/tpl_daily_plan.txt"))
+     ("J" "Add a journal entry" entry
+      (file+olp+datetree "~/org/journal.org")
+      "* %<%H:%M> - %^{Activity}\n%?")
+     ("w" "Add 10 I wants" entry
+      (file+olp+datetree "~/org/wants.org")
+      "* %<%H:%M>\n1. %?")
+     ("b" "Add an item to buy" entry
+      (file+headline "~/org/life.org" "Wish List")
+      (file "~/org/tpl/tpl_wishlist.txt")
+      :empty-lines-before 1)))
  '(org-clock-into-drawer "CLOCKING")
  '(org-enforce-todo-checkbox-dependencies t)
  '(org-enforce-todo-dependencies t)
@@ -102,7 +116,7 @@
      ("nongnu" . "https://elpa.nongnu.org/nongnu/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(wc-mode emmet-mode prettier js2-mode markdown-mode web-mode helpful ocaml-eglot tuareg auto-dark grep-a-lot nyan-mode))
+   '(wc-mode emmet-mode prettier js2-mode markdown-mode web-mode helpful ocaml-eglot tuareg grep-a-lot nyan-mode))
  '(read-quoted-char-radix 16)
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
@@ -147,17 +161,11 @@ text and copying to the killring."
 
 (add-hook 'org-after-todo-state-change-hook 'org-checklist)
 
-(defun my/org-show-last-daily_plan ()
-  "Fold all headings and show only the last leaf node's content."
-  (interactive)
-   (when (and buffer-file-name
-             (string-equal (file-truename buffer-file-name)
-                           (file-truename "~/org/daily_plan.org")))
-     (org-overview) ;; Fold everything
-     (org-map-entries
-      (lambda ()
-	(when (not (org-get-next-sibling)) ; only if no children
-	  (org-show-subtree)))
-      nil 'file)))
+(defun my/set-theme-based-on-time ()
+  (let ((hour (string-to-number (format-time-string "%H"))))
+    (if (or (< hour 7) (> hour 19))
+        (load-theme 'leuven-dark t)
+      (load-theme 'leuven t))))
+(my/set-theme-based-on-time)
+(run-at-time "1 min" 3600 'my/set-theme-based-on-time)
 
-(add-hook 'find-file-hook #'my/org-show-last-daily_plan)

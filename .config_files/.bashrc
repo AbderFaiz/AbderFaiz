@@ -147,6 +147,21 @@ test_advent_of_code_ocaml () {
     dune build && (cat $1/test | dune exe ./${1}/solve_${2}.exe)  
 }
 
+org_sync () {
+    origin_dir=$(pwd)
+    now=$(date +"%d/%m/%Y - %H:%M")
+    if [ -z $1 ]; then
+	commit_msg="update of ${now}"
+    else
+	commit_msg=$1
+    fi
+    cd ~/org/
+    git add *
+    git commit -m "${commit_msg}"
+    git push
+    cd ${origin_dir}
+}
+
 date +"%d/%m/%Y - %H:%M"
 cow_of_the_day=`ls /usr/share/cowsay/cows | sort -R | tail -1`
 fortune | cowsay -f ${cow_of_the_day}
