@@ -51,7 +51,7 @@
  '(nyan-animate-nyancat t)
  '(nyan-mode t)
  '(nyan-wavy-trail t)
- '(org-agenda-files '("~/org/capture.org" "/home/faiz/org/life.org"))
+ '(org-agenda-files '("~/org/capture.org" "~/org/life.org"))
  '(org-agenda-include-diary t)
  '(org-babel-load-languages '((emacs-lisp . t) (shell . t)))
  '(org-capture-templates
