@@ -38,6 +38,13 @@
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2))
 (require 'wc-mode)
+
+;;;; Code Completion
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -88,10 +95,10 @@
       (file "~/org/tpl/tpl_daily_plan.txt"))
      ("J" "Add a journal entry" entry
       (file+olp+datetree "~/org/journal.org")
-      "* %<%H:%M> - %^{Activity}\n%?")
+      "* %<%H:%M> - %^{Activity}\12%?")
      ("w" "Add 10 I wants" entry
       (file+olp+datetree "~/org/wants.org")
-      "* %<%H:%M>\n1. %?")
+      "* %<%H:%M>\0121. %?")
      ("b" "Add an item to buy" entry
       (file+headline "~/org/life.org" "Wish List")
       (file "~/org/tpl/tpl_wishlist.txt")
@@ -116,7 +123,7 @@
      ("nongnu" . "https://elpa.nongnu.org/nongnu/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(wc-mode emmet-mode prettier js2-mode markdown-mode web-mode helpful ocaml-eglot tuareg grep-a-lot nyan-mode))
+   '(corfu wc-mode emmet-mode prettier js2-mode markdown-mode web-mode helpful ocaml-eglot tuareg grep-a-lot nyan-mode))
  '(read-quoted-char-radix 16)
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
