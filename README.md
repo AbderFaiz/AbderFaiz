@@ -4,4 +4,6 @@
 
  See my [Learn in public experiment](http://afaiz.dev/).
 
-I love creating and building things. I’ve started a blog and a podcast in the past, and I also enjoy drawing, I keep a travel journal where I sketch and capture moments from my trips. I'm also passionate about languages, culture, philosophy, and I enjoy exploring new ideas and perspectives.
+I love creating and building things.
+
+I'm self-hosting my repos at [lab.afaiz.dev](http://lab.afaiz.dev/) using gogs
